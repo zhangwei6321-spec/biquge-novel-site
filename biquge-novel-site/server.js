@@ -9,7 +9,7 @@ const cheerio = require('cheerio');
 const githubSourceLoader = require('./github-sources');
 
 const PORT = Number(process.env.PORT || 4321);
-const HOST = process.env.HOST || '127.0.0.1';
+const HOST = process.env.HOST || '0.0.0.0';
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const CACHE_DIR = path.join(__dirname, 'cache', 'books');
 
