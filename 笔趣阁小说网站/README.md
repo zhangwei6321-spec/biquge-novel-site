@@ -24,3 +24,14 @@ npm start
 章节遇到 HTTP 520 或连接失败时，阅读器会自动在多个免费书源中查找同名同章内容并继续阅读，阅读器顶部会显示当前实际使用的书源。
 
 缓存文件保存在项目的 `cache/books/` 目录。请仅用于个人阅读，并支持正版。
+
+## 在线部署（免费）
+
+GitHub Pages 只能托管静态页面，不能运行 Node 后端。要让在线链接完整可用，推荐使用 Render 免费 Web Service：
+
+1. 代码已推到 GitHub 仓库，并包含 `render.yaml`。
+2. 在 Render 新建 Web Service，连接本仓库的 `笔趣阁小说网站` 目录。
+3. Build Command 填 `npm install`，Start Command 填 `node server.js`。
+4. 部署完成后访问 `https://<你的服务名>.onrender.com`。
+
+免费实例闲置约 15 分钟后会休眠，第一次访问可能需要等待 30-60 秒唤醒。
