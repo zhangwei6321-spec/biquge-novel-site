@@ -11,6 +11,8 @@ npm start
 
 浏览器打开 <http://127.0.0.1:4321>。
 
+🌐 在线访问：<https://biquge-novel-site.onrender.com>
+
 ## 源说明
 
 - 笔趣阁 321：抓取镜像站目录与正文，免费阅读。
@@ -30,8 +32,9 @@ npm start
 GitHub Pages 只能托管静态页面，不能运行 Node 后端。要让在线链接完整可用，推荐使用 Render 免费 Web Service：
 
 1. 代码已推到 GitHub 仓库，并包含 `render.yaml`。
-2. 在 Render 新建 Web Service，连接本仓库的 `笔趣阁小说网站` 目录。
+2. 在 Render 新建 Web Service，连接本仓库的 `biquge-novel-site` 目录。
 3. Build Command 填 `npm install`，Start Command 填 `node server.js`。
-4. 部署完成后访问 `https://<你的服务名>.onrender.com`。
+4. 部署完成后访问 `https://biquge-novel-site.onrender.com`。
 
 免费实例闲置约 15 分钟后会休眠，第一次访问可能需要等待 30-60 秒唤醒。
+仓库已配置 GitHub Actions 每 10 分钟请求一次 `/api/sources`，尽量让免费实例保持唤醒，减少再次打开时的等待。
