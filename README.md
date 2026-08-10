@@ -83,7 +83,7 @@ open http://localhost:8910
 > 本地小说阅读站：支持多书源搜索、自动切换书源、章节缓存与本地阅读。
 
 🔗 GitHub 源码：[zhangwei6321-spec/biquge-novel-site](https://github.com/zhangwei6321-spec/biquge-novel-site)
-📂 项目目录：[笔趣阁小说网站/](笔趣阁小说网站/)
+📂 项目目录：[biquge-novel-site/](biquge-novel-site/)
 
 ## ✨ 功能
 
@@ -99,11 +99,11 @@ Node.js + cheerio + 原生 HTML / CSS / JavaScript
 ## 📂 本地使用
 
 ```bash
-cd 笔趣阁小说网站
+cd biquge-novel-site
 npm install
 npm start
 ```
 
 浏览器打开 http://127.0.0.1:4321
 
-在线完整使用需要 Node 后端，推荐用 Render 免费 Web Service 部署，详细步骤见 [`笔趣阁小说网站/README.md`](笔趣阁小说网站/README.md)。
+在线完整使用需要 Node 后端，推荐用 Render 免费 Web Service 部署，详细步骤见 [`biquge-novel-site/README.md`](biquge-novel-site/README.md)。
