@@ -1151,6 +1151,23 @@ async function tryChapterWithFallback({
   throw primaryError || new Error('章节加载失败');
 }
 
+async function getBookWithFallback(rawUrl) {
+  const source = detectSource(rawUrl);
+  if (!source) throw new Error('暂不支持该来源链接');
+  try {
+    return await cached(`book:${source.id}:${rawUrl}`, 10 * 60 * 1000, () =>
+      source.book(rawUrl)
+    );
+  } catch (err) {
+    for (const [bookTitle, entries] of Object.entries(KNOWN_BOOK_URLS)) {
+      if (!entries.some((entry) => entry.url === rawUrl)) continue;
+      const fallback = await findFallbackBook(bookTitle, source.id);
+      if (fallback) return fallback.book;
+    }
+    throw err;
+  }
+}
+
 async function cacheChapterRange(bookUrl, bookTitle, chapters) {
   if (findCacheJobByKey(cacheKey(bookUrl))) return { skipped: true };
   const existingFile = await readBookCache(bookUrl);
@@ -1292,11 +1309,7 @@ async function handleApi(parsed, res, method) {
   if (route === '/book') {
     const rawUrl = parsed.searchParams.get('url');
     if (!rawUrl) throw new Error('缺少书籍链接');
-    const source = detectSource(rawUrl);
-    if (!source) throw new Error('暂不支持该来源链接');
-    const book = await cached(`book:${source.id}:${rawUrl}`, 10 * 60 * 1000, () =>
-      source.book(rawUrl)
-    );
+    const book = await getBookWithFallback(rawUrl);
     sendJson(res, 200, book);
     return;
   }
