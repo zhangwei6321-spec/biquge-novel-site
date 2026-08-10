@@ -3,6 +3,7 @@ services:
     name: biquge-novel-site
     runtime: node
     plan: free
+    rootDir: 笔趣阁小说网站
     buildCommand: npm install
     startCommand: node server.js
     healthCheckPath: /api/sources
