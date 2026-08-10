@@ -62,8 +62,8 @@
     {
       title: '夜无疆',
       author: '辰东',
-      source: 'biqugie',
-      url: 'https://www.biqugie.com/28/28293/',
+      source: 'biquge321',
+      url: 'https://www.biquge321.com/xiaoshuo/990215/',
       latest: '第782章 真魔踏青霄【下】',
     },
     {
@@ -74,13 +74,6 @@
       latest: '第12章 高玉',
     },
   ];
-
-  const RELIABLE_BOOK_URLS = {
-    夜无疆: {
-      source: 'biqugie',
-      url: 'https://www.biqugie.com/28/28293/',
-    },
-  };
 
   let shelf = readStore(STORE_KEYS.shelf, []);
   let history = readStore(STORE_KEYS.history, []);
@@ -287,11 +280,6 @@
   }
 
   async function openBook(url, source, title) {
-    const reliable = RELIABLE_BOOK_URLS[title || ''];
-    if (reliable && reliable.url !== url) {
-      url = reliable.url;
-      source = reliable.source;
-    }
     state.returnView = currentVisibleView();
     showView('book');
     els.bookDetail.innerHTML =
