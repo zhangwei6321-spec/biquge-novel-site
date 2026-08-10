@@ -83,6 +83,7 @@ open http://localhost:8910
 > 本地小说阅读站：支持多书源搜索、自动切换书源、章节缓存与本地阅读。
 
 🔗 GitHub 源码：[zhangwei6321-spec/biquge-novel-site](https://github.com/zhangwei6321-spec/biquge-novel-site)
+🔗 在线访问：[https://biquge-novel-site.onrender.com](https://biquge-novel-site.onrender.com)
 📂 项目目录：[biquge-novel-site/](biquge-novel-site/)
 
 ## ✨ 功能
@@ -106,4 +107,4 @@ npm start
 
 浏览器打开 http://127.0.0.1:4321
 
-在线完整使用需要 Node 后端，推荐用 Render 免费 Web Service 部署，详细步骤见 [`biquge-novel-site/README.md`](biquge-novel-site/README.md)。
+在线完整使用需要 Node 后端，推荐用 Render 免费 Web Service 部署，详细步骤见 [`biquge-novel-site/README.md`](biquge-novel-site/README.md)。仓库已配置 GitHub Actions 每 10 分钟保活一次，尽量让免费实例不进入休眠。
