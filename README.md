@@ -2,7 +2,7 @@
 
 > 浏览器端面试模拟工具 — 摄像头录制 / 计时器 / 语音实时转文字 / 文字稿导出。
 
-🔗 在线访问：[zhangwei6321-spec.github.io/001](https://zhangwei6321-spec.github.io/001/)
+🔗 在线访问：[zhangwei6321-spec.github.io/biquge-novel-site](https://zhangwei6321-spec.github.io/biquge-novel-site/)
 
 ---
 
@@ -42,8 +42,8 @@
 ## 📂 本地使用
 
 ```bash
-git clone https://github.com/zhangwei6321-spec/001.git
-cd 001
+git clone https://github.com/zhangwei6321-spec/biquge-novel-site.git
+cd biquge-novel-site
 open index.html
 ```
 
@@ -54,7 +54,7 @@ open index.html
 
 > 在线算命大全 — 综合八字、紫微、称骨、星座、生肖、塔罗等 16 种传统测算。
 
-🔗 在线访问：[zhangwei6321-spec.github.io/001/suandezhun/](https://zhangwei6321-spec.github.io/001/suandezhun/)
+🔗 在线访问：[zhangwei6321-spec.github.io/biquge-novel-site/suandezhun/](https://zhangwei6321-spec.github.io/biquge-novel-site/suandezhun/)
 
 ## ✨ 功能
 
@@ -75,3 +75,33 @@ cd suandezhun
 python3 -m http.server 8910
 open http://localhost:8910
 ```
+
+---
+
+# 📚 笔趣阁小说网站
+
+> 本地小说阅读站：支持多书源搜索、自动切换书源、章节缓存与本地阅读。
+
+🔗 GitHub 源码：[zhangwei6321-spec/biquge-novel-site](https://github.com/zhangwei6321-spec/biquge-novel-site)
+📂 项目目录：[笔趣阁小说网站/](笔趣阁小说网站/)
+
+## ✨ 功能
+
+- 🔍 **多书源搜索** — 笔趣阁321 / 笔趣阁网 / 速读谷 + GitHub 免费书源
+- 🔄 **自动切换书源** — 遇到 HTTP 520、连接失败或坏章节时自动换源继续阅读
+- 💾 **缓存全部章节** — 后台缓存整本书，阅读时自动预缓存接下来 5 章
+- 🚫 **纯免费策略** — 过滤会员、付费、VIP、正版站点，只保留免费书源
+
+## 🛠 技术栈
+
+Node.js + cheerio + 原生 HTML / CSS / JavaScript
+
+## 📂 本地使用
+
+```bash
+cd 笔趣阁小说网站
+npm install
+npm start
+```
+
+浏览器打开 http://127.0.0.1:4321

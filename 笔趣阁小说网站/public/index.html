@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>笔趣阁阅读器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <i data-lucide="book-open"></i>
+        <span>笔趣阁阅读器</span>
+      </div>
+      <form id="searchForm" class="search-form" autocomplete="off">
+        <select id="sourceSelect" aria-label="来源">
+          <option value="">全部源</option>
+          <option value="biquge321">笔趣阁321</option>
+          <option value="biqugie">笔趣阁网</option>
+          <option value="sudugu">速读谷</option>
+        </select>
+        <input id="searchInput" type="search" placeholder="搜书名或作者">
+        <button class="icon-button" type="submit" aria-label="搜索" title="搜索">
+          <i data-lucide="search"></i>
+        </button>
+      </form>
+      <button id="importButton" class="text-button">
+        <i data-lucide="link-2"></i>
+        <span>导入链接</span>
+      </button>
+    </header>
+
+    <aside class="sidebar">
+      <nav class="side-nav">
+        <button class="nav-item active" data-view="home">
+          <i data-lucide="library-big"></i><span>书架</span>
+        </button>
+        <button class="nav-item" data-view="history">
+          <i data-lucide="history"></i><span>最近阅读</span>
+        </button>
+        <button class="nav-item" data-view="discover">
+          <i data-lucide="sparkles"></i><span>发现</span>
+        </button>
+      </nav>
+      <div class="source-panel">
+        <div class="source-item">
+          <span class="source-dot biquge"></span><span>笔趣阁321</span>
+        </div>
+        <div class="source-item">
+          <span class="source-dot sudugu"></span><span>速读谷</span>
+        </div>
+        <div class="source-item">
+          <span class="source-dot biqugie"></span><span>笔趣阁网</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="view-home" class="view active">
+        <div class="view-head">
+          <div>
+            <h1>书架</h1>
+            <p id="shelfCount"></p>
+          </div>
+        </div>
+        <div id="shelfGrid" class="book-grid"></div>
+        <div id="shelfEmpty" class="empty-state hidden">
+          <i data-lucide="library-big"></i>
+          <span>书架还是空的</span>
+        </div>
+      </section>
+
+      <section id="view-history" class="view">
+        <div class="view-head">
+          <div>
+            <h1>最近阅读</h1>
+            <p id="historyCount"></p>
+          </div>
+        </div>
+        <div id="historyRows" class="history-list"></div>
+        <div id="historyEmpty" class="empty-state hidden">
+          <i data-lucide="history"></i>
+          <span>还没有阅读记录</span>
+        </div>
+      </section>
+
+      <section id="view-discover" class="view">
+        <div class="view-head">
+          <div>
+            <h1>发现</h1>
+            <p>可直接打开的示例书目</p>
+          </div>
+        </div>
+        <div id="discoverGrid" class="book-grid"></div>
+      </section>
+
+      <section id="view-search" class="view">
+        <div class="view-head">
+          <div>
+            <h1 id="searchTitle">搜索结果</h1>
+            <p id="searchCount"></p>
+          </div>
+        </div>
+        <div id="searchGrid" class="book-grid"></div>
+        <div id="searchEmpty" class="empty-state hidden">
+          <i data-lucide="search-x"></i>
+          <span>没有找到相关结果</span>
+        </div>
+      </section>
+
+      <section id="view-book" class="view">
+        <button id="bookBack" class="back-button">
+          <i data-lucide="arrow-left"></i><span>返回</span>
+        </button>
+        <div id="bookDetail" class="book-detail"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="reader" class="reader hidden">
+    <div class="reader-topbar">
+      <button id="readerBack" class="icon-button" aria-label="返回" title="返回">
+        <i data-lucide="arrow-left"></i>
+      </button>
+      <div class="reader-title">
+        <strong id="readerBookTitle"></strong>
+        <span id="readerChapterTitle"></span>
+        <span id="readerSource" class="reader-source"></span>
+      </div>
+      <div class="reader-tools">
+        <button id="readerList" class="icon-button" aria-label="目录" title="目录">
+          <i data-lucide="list"></i>
+        </button>
+        <button id="fontMinus" class="icon-button" aria-label="减小字号" title="减小字号">
+          <i data-lucide="minus"></i>
+        </button>
+        <button id="fontPlus" class="icon-button" aria-label="增大字号" title="增大字号">
+          <i data-lucide="plus"></i>
+        </button>
+        <button id="themeToggle" class="icon-button" aria-label="切换主题" title="切换主题">
+          <i data-lucide="moon"></i>
+        </button>
+      </div>
+    </div>
+    <div class="reader-body">
+      <aside id="chapterDrawer" class="chapter-drawer hidden">
+        <div class="drawer-head">
+          <span>目录</span>
+          <button id="drawerClose" class="icon-button" aria-label="关闭目录" title="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <div id="drawerChapters" class="drawer-chapters"></div>
+      </aside>
+      <article id="readerContent" class="reader-content"></article>
+    </div>
+    <div class="reader-nav">
+      <button id="prevChapter" class="reader-nav-button">
+        <i data-lucide="chevron-left"></i><span>上一章</span>
+      </button>
+      <button id="nextChapter" class="reader-nav-button">
+        <span>下一章</span><i data-lucide="chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="importModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong>导入链接</strong>
+        <button id="modalClose" class="icon-button" aria-label="关闭" title="关闭">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <input id="importInput" type="url" placeholder="粘贴番茄或笔趣阁书籍链接">
+      <div class="modal-actions">
+        <button id="importConfirm" class="primary-button">导入</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="vendor/lucide.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

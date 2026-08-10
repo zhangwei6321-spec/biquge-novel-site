@@ -1,0 +1,13 @@
+{
+  "name": "biquge-novel-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "本地小说阅读站，支持番茄小说与笔趣阁网络源",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}
