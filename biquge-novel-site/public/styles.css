@@ -217,6 +217,10 @@ select {
   background: #2e9e6b;
 }
 
+.source-dot.longwangxs {
+  background: #c05621;
+}
+
 .main {
   overflow-y: auto;
   padding: 28px 30px 80px;
@@ -356,6 +360,11 @@ select {
 .book-card[data-source="biqugie"] .source-tag {
   background: #e1f3ea;
   color: #287a52;
+}
+
+.book-card[data-source="longwangxs"] .source-tag {
+  background: #fdeee3;
+  color: #a64a1e;
 }
 
 .empty-state {
