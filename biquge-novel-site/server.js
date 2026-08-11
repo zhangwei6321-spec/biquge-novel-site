@@ -125,7 +125,7 @@ function cleanChapterText(text) {
         !/一秒记住|请收藏本站|手机用户请|手机站|无弹窗|biquge321\.com|bgg99\.com|更新最快/.test(
           line
         ) &&
-        !/piquge\.com|biqugie\.com|看后求收藏/.test(
+        !/piquge\.com|biqugie\.com|龙王小说|看后求收藏/.test(
           line
         )
     )
@@ -157,6 +157,11 @@ const KNOWN_BIQUGE_BOOKS = [
     author: '辰东',
     url: 'https://www.biquge321.com/xiaoshuo/990215/',
   },
+  {
+    title: '万古神帝',
+    author: '飞天鱼',
+    url: 'https://www.biquge321.com/xiaoshuo/25995/',
+  },
 ];
 
 const KNOWN_BOOK_URLS = {
@@ -165,6 +170,12 @@ const KNOWN_BOOK_URLS = {
     { sourceId: 'biqugie', url: 'https://www.biqugie.com/28/28293/' },
     { sourceId: 'sudugu', url: 'https://www.sudugu.org/4/' },
   ],
+  万古神帝: [
+    { sourceId: 'longwangxs', url: 'https://www.longwangxs.cc/novel/1087408/' },
+    { sourceId: 'sudugu', url: 'https://www.sudugu.org/3745/' },
+    { sourceId: 'biquge321', url: 'https://www.biquge321.com/xiaoshuo/25995/' },
+    { sourceId: 'biqugie', url: 'https://www.biqugie.com/9/9680/' },
+  ],
   神通者: [
     { sourceId: 'biquge321', url: 'https://www.biquge321.com/xiaoshuo/463528/' },
   ],
@@ -172,6 +183,7 @@ const KNOWN_BOOK_URLS = {
 
 const UNRELIABLE_BOOK_SOURCES = {
   夜无疆: ['biquge321'],
+  万古神帝: ['biquge321'],
 };
 
 async function bingBookPages(query, hostPattern, pathPattern) {
@@ -945,7 +957,83 @@ const BIQUGIE = {
 
 BIQUGIE.base = 'https://www.biqugie.com';
 
-const SOURCES = [BIQUGE_321, SUDUGU, BIQUGIE];
+const LONGWANGXS = {
+  id: 'longwangxs',
+  name: '龙王小说',
+  match(url) {
+    return /(^|\.)longwangxs\.cc$/i.test(url.hostname);
+  },
+
+  async search(query) {
+    const books = [];
+    for (const [bookTitle, entries] of Object.entries(KNOWN_BOOK_URLS)) {
+      const entry = entries.find((item) => item.sourceId === this.id);
+      if (!entry) continue;
+      if (!bookTitle.includes(query) && !query.includes(bookTitle)) continue;
+      try {
+        const book = await this.book(entry.url);
+        books.push({ ...bookSummary(book), id: entry.url, source: this.id });
+      } catch {
+        // skip unavailable known book
+      }
+    }
+    return books;
+  },
+
+  async book(url) {
+    const html = await fetchText(url);
+    const $ = cheerio.load(html);
+    const meta = (name) => $(`meta[property="${name}"]`).attr('content') || '';
+    const title =
+      meta('og:novel:book_name') ||
+      $('h1.title').first().text().trim() ||
+      $('title').text().split('_')[0].trim();
+    let author = meta('og:novel:author') || '';
+    if (title.includes('万古神帝')) author = '飞天鱼';
+    const cover = meta('og:image') || '';
+    const description = meta('og:description') || '';
+    const status = meta('og:novel:status') || '';
+    const chapters = [];
+    $('#readerlists ul.chapterlist li a').each((_, el) => {
+      const $a = $(el);
+      const href = $a.attr('href');
+      if (!href) return;
+      chapters.push({ title: $a.text().trim(), url: resolveUrl(href, url) });
+    });
+    return {
+      source: this.id,
+      title,
+      author,
+      cover,
+      description,
+      status,
+      latest: chapters.length ? chapters[chapters.length - 1].title : '',
+      url,
+      chapters,
+    };
+  },
+
+  async chapter(url) {
+    const html = await fetchText(url);
+    const $ = cheerio.load(html);
+    const title = $('h1').first().text().trim() || $('title').text().split('_')[0].trim();
+    const $content = $('#content');
+    $content.find('script, style').remove();
+    const content = cleanChapterText(textFromHtml($content.html() || ''));
+    return {
+      source: this.id,
+      title,
+      content,
+      prevUrl: null,
+      nextUrl: null,
+      locked: !content,
+    };
+  },
+};
+
+LONGWANGXS.base = 'https://www.longwangxs.cc';
+
+const SOURCES = [BIQUGE_321, SUDUGU, BIQUGIE, LONGWANGXS];
 
 let dynamicGitHubSources = [];
 
