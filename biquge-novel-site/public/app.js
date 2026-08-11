@@ -54,6 +54,7 @@
     biquge321: '笔趣阁321',
     biqugie: '笔趣阁网',
     sudugu: '速读谷',
+    longwangxs: '龙王小说',
   };
 
   const THEMES = ['paper', 'green', 'dark'];
@@ -65,6 +66,13 @@
       source: 'biquge321',
       url: 'https://www.biquge321.com/xiaoshuo/990215/',
       latest: '第782章 真魔踏青霄【下】',
+    },
+    {
+      title: '万古神帝',
+      author: '飞天鱼',
+      source: 'longwangxs',
+      url: 'https://www.longwangxs.cc/novel/1087408/',
+      latest: '完本',
     },
     {
       title: '神通者',
