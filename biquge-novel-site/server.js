@@ -177,6 +177,7 @@ const KNOWN_BOOK_URLS = {
     { sourceId: 'biqugie', url: 'https://www.biqugie.com/9/9680/' },
   ],
   神通者: [
+    { sourceId: 'fanqie', url: 'https://fanqienovel.com/page/7665193065501445145' },
     { sourceId: 'biquge321', url: 'https://www.biquge321.com/xiaoshuo/463528/' },
   ],
 };
@@ -184,6 +185,7 @@ const KNOWN_BOOK_URLS = {
 const UNRELIABLE_BOOK_SOURCES = {
   夜无疆: ['biquge321'],
   万古神帝: ['biquge321'],
+  神通者: ['biquge321'],
 };
 
 async function bingBookPages(query, hostPattern, pathPattern) {
@@ -1034,11 +1036,12 @@ const LONGWANGXS = {
 LONGWANGXS.base = 'https://www.longwangxs.cc';
 
 const SOURCES = [BIQUGE_321, SUDUGU, BIQUGIE, LONGWANGXS];
+const FALLBACK_ONLY_SOURCES = [FANQIE];
 
 let dynamicGitHubSources = [];
 
 function getAllSources() {
-  return [...SOURCES, ...dynamicGitHubSources];
+  return [...SOURCES, ...FALLBACK_ONLY_SOURCES, ...dynamicGitHubSources];
 }
 
 async function refreshGitHubSources() {
