@@ -177,6 +177,7 @@ const KNOWN_BOOK_URLS = {
     { sourceId: 'biqugie', url: 'https://www.biqugie.com/9/9680/' },
   ],
   神通者: [
+    { sourceId: 'tangsanbooks', url: 'https://www.tangsanbooks.com/shentongzhe' },
     { sourceId: 'fanqie', url: 'https://fanqienovel.com/page/7665193065501445145' },
     { sourceId: 'biquge321', url: 'https://www.biquge321.com/xiaoshuo/463528/' },
   ],
@@ -1035,7 +1036,81 @@ const LONGWANGXS = {
 
 LONGWANGXS.base = 'https://www.longwangxs.cc';
 
-const SOURCES = [BIQUGE_321, SUDUGU, BIQUGIE, LONGWANGXS];
+const TANGSANBOOKS = {
+  id: 'tangsanbooks',
+  name: '妙味书屋',
+  match(url) {
+    return /(^|\.)tangsanbooks\.com$/i.test(url.hostname);
+  },
+
+  async search(query) {
+    const books = [];
+    for (const [bookTitle, entries] of Object.entries(KNOWN_BOOK_URLS)) {
+      const entry = entries.find((item) => item.sourceId === this.id);
+      if (!entry) continue;
+      if (!bookTitle.includes(query) && !query.includes(bookTitle)) continue;
+      try {
+        const book = await this.book(entry.url);
+        books.push({ ...bookSummary(book), id: entry.url, source: this.id });
+      } catch {
+        // skip unavailable known book
+      }
+    }
+    return books;
+  },
+
+  async book(url) {
+    const html = await fetchText(url);
+    const $ = cheerio.load(html);
+    const title =
+      $('.book-title h1').first().text().trim() || $('title').text().split('_')[0].trim();
+    const author = $('.book-title span').first().text().replace(/作者[：:]\s*/, '').trim() || '';
+    const cover = $('.book-image img').first().attr('src') || '';
+    const description =
+      $('.cate-desc p').first().text().trim() ||
+      $('meta[name="description"]').attr('content') ||
+      '';
+    const chapters = [];
+    $('ul.nine-list li a').each((_, el) => {
+      const $a = $(el);
+      const href = $a.attr('href');
+      if (!href) return;
+      chapters.push({ title: $a.text().trim(), url: resolveUrl(href, url) });
+    });
+    return {
+      source: this.id,
+      title,
+      author,
+      cover,
+      description,
+      status: '连载中',
+      latest: chapters.length ? chapters[chapters.length - 1].title : '',
+      url,
+      chapters,
+    };
+  },
+
+  async chapter(url) {
+    const html = await fetchText(url);
+    const $ = cheerio.load(html);
+    const title = $('h1').first().text().trim() || $('title').text().split('_')[0].trim();
+    const $content = $('#mainboxs');
+    $content.find('script, style').remove();
+    const content = cleanChapterText(textFromHtml($content.html() || ''));
+    return {
+      source: this.id,
+      title,
+      content,
+      prevUrl: null,
+      nextUrl: null,
+      locked: !content,
+    };
+  },
+};
+
+TANGSANBOOKS.base = 'https://www.tangsanbooks.com';
+
+const SOURCES = [BIQUGE_321, SUDUGU, BIQUGIE, LONGWANGXS, TANGSANBOOKS];
 const FALLBACK_ONLY_SOURCES = [FANQIE];
 
 let dynamicGitHubSources = [];
