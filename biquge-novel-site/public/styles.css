@@ -221,6 +221,10 @@ select {
   background: #c05621;
 }
 
+.source-dot.tangsanbooks {
+  background: #0f766e;
+}
+
 .main {
   overflow-y: auto;
   padding: 28px 30px 80px;
@@ -365,6 +369,11 @@ select {
 .book-card[data-source="longwangxs"] .source-tag {
   background: #fdeee3;
   color: #a64a1e;
+}
+
+.book-card[data-source="tangsanbooks"] .source-tag {
+  background: #e0f2f1;
+  color: #0f766e;
 }
 
 .empty-state {
