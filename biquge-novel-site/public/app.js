@@ -55,6 +55,7 @@
     biqugie: '笔趣阁网',
     sudugu: '速读谷',
     longwangxs: '龙王小说',
+    tangsanbooks: '妙味书屋',
     fanqie: '番茄小说',
   };
 
@@ -78,9 +79,9 @@
     {
       title: '神通者',
       author: '天蚕土豆',
-      source: 'biquge321',
-      url: 'https://www.biquge321.com/xiaoshuo/463528/',
-      latest: '第12章 高玉',
+      source: 'tangsanbooks',
+      url: 'https://www.tangsanbooks.com/shentongzhe',
+      latest: '第34章 金罡剑馆的针对',
     },
   ];
 
