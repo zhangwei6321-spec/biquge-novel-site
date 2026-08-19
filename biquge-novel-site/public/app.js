@@ -55,6 +55,7 @@
     biqugie: '笔趣阁网',
     sudugu: '速读谷',
     longwangxs: '龙王小说',
+    fanqie: '番茄小说',
   };
 
   const THEMES = ['paper', 'green', 'dark'];
