@@ -1,35 +1,44 @@
 # 笔趣阁小说网站
 
-> 多免费书源小说阅读站（Node + Express）。**源码在 [`biquge-novel-site/`](./biquge-novel-site) 子目录**，部署在 Render。
+本地小说阅读站：从网络源获取书籍目录与正文，只保留纯免费书源，支持笔趣阁 321、笔趣阁网、速读谷、龙王小说和妙味书屋。
 
-🔗 **在线访问：<https://biquge-novel-site.onrender.com>**
+🔗 在线访问：[https://biquge-novel-site.onrender.com](https://biquge-novel-site.onrender.com)
 
-## 仓库边界
+## 使用
 
-这里只放小说站。原先混在本仓库的另外两个项目已拆成独立仓库：
+```bash
+npm install
+npm start
+```
+
+浏览器打开 <http://127.0.0.1:4321>。
+
+## 源说明
+
+- 笔趣阁 321：抓取镜像站目录与正文，免费阅读。
+- 笔趣阁网：抓取完整目录与分页正文，适合《夜无疆》等长篇小说。
+- 速读谷：备用精校源，部分时段可能被站点反爬拦截。
+- 龙王小说：完整收录《万古神帝》等长篇，含番外全文。
+- 妙味书屋：简体精校源，用于《神通者》等长篇的章节自动切换。
+- GitHub 书源：启动时从 GitHub 拉取多套 Legado 小说书源，自动过滤会员、付费、VIP、正版站点，仅保留纯免费源。
+- 缓存全部章节：书籍详情页可后台缓存整本书，带进度显示；缓存后章节直接从本地读取，不再重复抓取。
+- 阅读时自动预缓存：每次打开章节后会自动缓存接下来 5 章，翻页时直接读本地缓存，源站临时失效也不影响。
+- 导入链接：支持笔趣阁 321、笔趣阁网和速读谷书籍页。
+
+章节遇到 HTTP 520 或连接失败时，阅读器会自动在多个免费书源中查找同名同章内容并继续阅读，阅读器顶部会显示当前实际使用的书源。
+
+缓存文件保存在项目的 `cache/books/` 目录。请仅用于个人阅读，并支持正版。
+
+## 相关仓库
+
+原先混在本仓库的另外两个项目已拆成独立仓库：
 
 | 项目 | 仓库 | 在线地址 |
 |------|------|----------|
 | 协理员面试练习 | [interview-practice](https://github.com/zhangwei6321-spec/interview-practice) | <https://zhangwei6321-spec.github.io/interview-practice/> |
 | 算得准 · 在线算命 | [suandezhun](https://github.com/zhangwei6321-spec/suandezhun) | <https://zhangwei6321-spec.github.io/suandezhun/> |
 
-## 目录
-
-```
-biquge-novel-site/    Node 应用：server.js / public/ / render.yaml
-.github/workflows/    keep-alive：每 10 分钟 ping 一次 Render，防免费实例休眠
-```
-
-## 本地运行
-
-```bash
-cd biquge-novel-site
-npm install
-npm start
-```
-
-打开 <http://127.0.0.1:4321>。功能与书源说明见 [`biquge-novel-site/README.md`](./biquge-novel-site/README.md)。
-
 ## 部署
 
-Render 上的 Web Service，根目录设为 `biquge-novel-site`（仓库内有 `render.yaml`）。GitHub Pages 已关闭——这是带后端的 Node 应用，静态托管跑不起来。
+Render Web Service，根目录即仓库根，构建 `npm install`，启动 `npm start`。
+`.github/workflows/keep-alive.yml` 每 10 分钟 ping 一次 `/api/sources`，防止免费实例休眠。
